@@ -1,0 +1,55 @@
+extends layout
+
+block content
+  
+
+  script(src="http://localhost:3000/javascripts/formData.js")
+
+  div(class='main')
+
+    p pageSize : #{pageSize}
+    p pageCount : #{pageCount}
+    p currentPage : #{Number(currentPage)}
+    -var sort='name'
+    -var order='ASC'
+
+    form(action="http://localhost:3000/?page="+(Number(currentPage)-1)+"&sort="+sort+"&order="+order, method="post")
+      select(name="sort", id="sort", onselect="var sort = sortData()")
+        option(value="id") by id
+        option(value="name") by name
+        option(value="mob_no") by mobile no
+        option(value="gender") by gender
+        option(value="address") by address
+      select(name="order", id="order", onselect="var order = orderData()")
+        option(value="ASC") Ascending
+        option(value="DESC") Descending
+      br
+      - alertData();
+      input(type="submit", value="Submit", (click)='alertData()')
+    
+
+    table 
+      tr
+        th _id
+        th name
+        th mob_no
+        th gender
+        th address
+        th reg_date
+
+      each user in users
+        tr 
+          td #{user._id}
+          td #{user.name}
+          td #{user.mob_no}
+          td #{user.gender}
+          td #{user.address}
+          td #{user.reg_date}
+
+    div(class='pagination')
+      if (currentPage > 1)
+        a(href="/?page="+(Number(currentPage)-1)) &laquo;
+      - for (var x=1; x<=pageCount; x++)
+        a(href="/?page="+(Number(x))) #{Number(x)}
+      if (currentPage < pageCount)  
+        a(href="/?page="+(Number(currentPage)+1)) &raquo; 
