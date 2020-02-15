@@ -1,32 +1,28 @@
 extends layout
 
 block content
-  
-
-  script(src="http://localhost:3000/javascripts/formData.js")
 
   div(class='main')
 
     p pageSize : #{pageSize}
     p pageCount : #{pageCount}
     p currentPage : #{Number(currentPage)}
-    -var sort='name'
-    -var order='ASC'
 
-    form(action="http://localhost:3000/?page="+(Number(currentPage)-1)+"&sort="+sort+"&order="+order, method="post")
-      select(name="sort", id="sort", onselect="var sort = sortData()")
+    form(action="http://localhost:3000/?page="+Number(currentPage), method="get")
+      select(name="sort", id="sort", onselect="sortData()")
         option(value="id") by id
         option(value="name") by name
         option(value="mob_no") by mobile no
         option(value="gender") by gender
         option(value="address") by address
-      select(name="order", id="order", onselect="var order = orderData()")
+      select(name="order", id="order", onselect="orderData()")
         option(value="ASC") Ascending
         option(value="DESC") Descending
       br
-      - alertData();
-      input(type="submit", value="Submit", (click)='alertData()')
-    
+
+      input(type="submit", value="Submit", onclick='updateChanges()')
+      
+    script(src="http://localhost:3000/javascripts/formData.js")
 
     table 
       tr

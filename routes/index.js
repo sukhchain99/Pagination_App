@@ -26,6 +26,12 @@ router.use('/', function(req, res, next) {
     if (typeof req.query.page !== 'undefined') {
       currentPage = req.query.page;
     }
+    if (typeof req.query.sort !== 'undefined') {
+      sort = req.query.sort;
+    }
+    if (typeof req.query.order !== 'undefined') {
+      order = req.query.order;
+    }
 
     if (currentPage > 0) {
       start = (currentPage - 1) * pageSize;
@@ -46,7 +52,7 @@ router.get('/', function(req, res, next) {
 ], }).then((users)=>{
     
     res.render('index', { users: users, pageSize: pageSize, pageCount: pageCount,
-                          currentPage: currentPage});
+                          currentPage: currentPage, sort: sort, order: order});
   }).catch((err)=>{
     res.render('error', { err });
   });
